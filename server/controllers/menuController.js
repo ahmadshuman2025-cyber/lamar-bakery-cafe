@@ -1,20 +1,21 @@
 const MenuItem = require("../models/MenuItem");
+const connectDB = require("../config/db");
+const mongoose = require("mongoose");
 
 // @desc    Get all menu items
 // @route   GET /api/menu
 // @access  Public
 exports.getMenuItems = async (req, res) => {
   try {
-    const { category } = req.query;
+    await connectDB();
 
+    const { category } = req.query;
     let query = {};
 
-    // Filter by category if provided
     if (category && category !== "all") {
       query.category = category;
     }
 
-    // Only show available items
     query.isAvailable = true;
 
     const menuItems = await MenuItem.find(query).sort({ category: 1, name: 1 });
@@ -38,6 +39,15 @@ exports.getMenuItems = async (req, res) => {
 // @access  Public
 exports.getMenuItem = async (req, res) => {
   try {
+    await connectDB();
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid menu item ID",
+      });
+    }
+
     const menuItem = await MenuItem.findById(req.params.id);
 
     if (!menuItem) {
@@ -65,6 +75,8 @@ exports.getMenuItem = async (req, res) => {
 // @access  Private
 exports.createMenuItem = async (req, res) => {
   try {
+    await connectDB();
+
     const { name, description, price, category, image, isAvailable } = req.body;
 
     const menuItem = await MenuItem.create({
@@ -82,6 +94,14 @@ exports.createMenuItem = async (req, res) => {
     });
   } catch (error) {
     console.error("Create menu item error:", error);
+
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        success: false,
+        message: Object.values(error.errors)[0].message,
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: "Server error. Please try again later.",
@@ -94,13 +114,18 @@ exports.createMenuItem = async (req, res) => {
 // @access  Private
 exports.updateMenuItem = async (req, res) => {
   try {
+    await connectDB();
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid menu item ID",
+      });
+    }
+
     const { name, description, price, category, image, isAvailable } = req.body;
 
-    const menuItem = await MenuItem.findByIdAndUpdate(
-      req.params.id,
-      { name, description, price, category, image, isAvailable },
-      { new: true, runValidators: true },
-    );
+    const menuItem = await MenuItem.findById(req.params.id);
 
     if (!menuItem) {
       return res.status(404).json({
@@ -109,12 +134,29 @@ exports.updateMenuItem = async (req, res) => {
       });
     }
 
+    menuItem.name = name ?? menuItem.name;
+    menuItem.description = description ?? menuItem.description;
+    menuItem.price = price ?? menuItem.price;
+    menuItem.category = category ?? menuItem.category;
+    menuItem.image = image ?? menuItem.image;
+    menuItem.isAvailable = isAvailable ?? menuItem.isAvailable;
+
+    await menuItem.save();
+
     res.status(200).json({
       success: true,
       data: menuItem,
     });
   } catch (error) {
     console.error("Update menu item error:", error);
+
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        success: false,
+        message: Object.values(error.errors)[0].message,
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: "Server error. Please try again later.",
@@ -127,6 +169,15 @@ exports.updateMenuItem = async (req, res) => {
 // @access  Private
 exports.deleteMenuItem = async (req, res) => {
   try {
+    await connectDB();
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid menu item ID",
+      });
+    }
+
     const menuItem = await MenuItem.findByIdAndDelete(req.params.id);
 
     if (!menuItem) {
@@ -154,6 +205,8 @@ exports.deleteMenuItem = async (req, res) => {
 // @access  Public (remove in production)
 exports.seedMenuItems = async (req, res) => {
   try {
+    await connectDB();
+
     const menuItems = [
       {
         name: "Croissant",
@@ -265,7 +318,6 @@ exports.seedMenuItems = async (req, res) => {
       },
     ];
 
-    // Clear existing items and seed new ones
     await MenuItem.deleteMany({});
     const createdItems = await MenuItem.insertMany(menuItems);
 
