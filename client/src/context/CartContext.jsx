@@ -53,7 +53,6 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // Increase quantity
   const increaseQuantity = (productId) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
