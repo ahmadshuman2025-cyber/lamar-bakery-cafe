@@ -8,6 +8,7 @@ const connectDB = require("./config/db");
 const contactRoutes = require("./routes/contactRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const subscriberRoutes = require("./routes/subscriberRoutes");
 
 const app = express();
 
@@ -37,10 +38,15 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/api/contact", contactRoutes);
 app.use("/api/menu", menuRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/subscribers", subscriberRoutes);
 
 // Health route
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", message: "Lamar Bakery Cafe API running" });
 });
 
-module.exports = app;
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

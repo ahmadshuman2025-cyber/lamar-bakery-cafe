@@ -3,6 +3,8 @@ const Admin = require("../models/Admin");
 const MenuItem = require("../models/MenuItem");
 const Contact = require("../models/Contact");
 const { generateToken } = require("../middleware/auth");
+const Subscriber = require("../models/Subscriber");
+const sendEmail = require("../utils/sendEmail");
 
 // @desc    Admin login
 // @route   POST /api/admin/login
@@ -191,6 +193,26 @@ const createMenuItem = async (req, res) => {
       isAvailable: isAvailable !== false,
     });
 
+    // -------- SEND EMAIL NOTIFICATION --------
+    const subscribers = await Subscriber.find({}, "email");
+
+    const emailList = subscribers.map((sub) => sub.email);
+
+    if (emailList.length > 0) {
+      await sendEmail({
+        to: emailList,
+        subject: `New item at Lamar Bakery Cafe: ${menuItem.name}`,
+        html: `
+          <h2>New Menu Item Added 🍰</h2>
+          <p><strong>${menuItem.name}</strong></p>
+          <p>${menuItem.description}</p>
+          <p>Price: $${menuItem.price}</p>
+          <p>Visit Lamar Bakery Cafe to try it!</p>
+        `,
+      });
+    }
+    // -----------------------------------------
+
     res.status(201).json({
       success: true,
       message: "Menu item created successfully",
@@ -204,7 +226,6 @@ const createMenuItem = async (req, res) => {
     });
   }
 };
-
 // @desc    Update menu item
 // @route   PUT /api/admin/menu/:id
 // @access  Private

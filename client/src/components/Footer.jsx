@@ -1,8 +1,31 @@
+import { useState } from "react";
+import api from "../api/axios";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await api.post("/subscribers", { email });
+
+      if (data.success) {
+        alert(data.message);
+        setEmail("");
+      }
+    } catch (error) {
+      console.error("Subscribe error:", error);
+      alert(
+        error.response?.data?.message ||
+          "Subscription failed. Please try again.",
+      );
+    }
+  };
   const socialLinks = [
     {
       icon: "facebook-f",
@@ -29,6 +52,39 @@ const Footer = () => {
   return (
     <footer className="bg-secondary text-white pt-16 pb-8">
       <div className="container-custom">
+        {/* Subscribe Section */}
+        <div className="bg-accent/10 rounded-xl p-6 mb-12 text-center">
+          <h4 className="font-heading text-xl font-semibold mb-2">
+            Subscribe for New Menu Updates
+          </h4>
+
+          <p className="text-white/70 mb-4 text-sm">
+            Be the first to know when we add new pastries and special desserts.
+          </p>
+
+          <form
+            onSubmit={handleSubscribe}
+            className="flex flex-col sm:flex-row justify-center gap-3 max-w-md mx-auto"
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              required
+              className="px-4 py-2 rounded-md text-black flex-1"
+            />
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-accent px-5 py-2 rounded-md hover:bg-accent/80 transition disabled:opacity-50"
+            >
+              {loading ? "Subscribing..." : "Subscribe"}
+            </button>
+          </form>
+        </div>
+
         {/* Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
@@ -36,10 +92,12 @@ const Footer = () => {
             <h3 className="font-heading text-2xl font-bold mb-4">
               Lamar Bakery Cafe
             </h3>
+
             <p className="text-white/80 mb-6 leading-relaxed">
               Freshly baked happiness since 2020. We craft delicious pastries
               and serve premium coffee with love.
             </p>
+
             <div className="flex gap-4 flex-wrap">
               {socialLinks.map((social, index) => (
                 <a
@@ -61,6 +119,7 @@ const Footer = () => {
             <h4 className="font-heading text-lg font-semibold mb-4">
               Quick Links
             </h4>
+
             <ul className="space-y-3">
               {[
                 { name: "Home", href: "#home" },
@@ -86,15 +145,18 @@ const Footer = () => {
             <h4 className="font-heading text-lg font-semibold mb-4">
               Opening Hours
             </h4>
+
             <ul className="space-y-3">
               <li className="flex justify-between text-white/80">
                 <span>Monday - Friday</span>
                 <span className="text-white">7AM - 9PM</span>
               </li>
+
               <li className="flex justify-between text-white/80">
                 <span>Saturday</span>
                 <span className="text-white">8AM - 10PM</span>
               </li>
+
               <li className="flex justify-between text-white/80">
                 <span>Sunday</span>
                 <span className="text-white">8AM - 10PM</span>
@@ -107,9 +169,11 @@ const Footer = () => {
             <h4 className="font-heading text-lg font-semibold mb-4">
               Contact Info
             </h4>
+
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <i className="fas fa-map-marker-alt text-accent mt-1"></i>
+
                 <a
                   href="https://maps.app.goo.gl/Zfd8yhdEk9JL1uSGA"
                   target="_blank"
@@ -118,13 +182,15 @@ const Footer = () => {
                 >
                   Beqaa, Ghazze, main road
                   <br />
-                  Beqaa , Lebanon
+                  Beqaa, Lebanon
                 </a>
               </li>
+
               <li className="flex items-center gap-3">
                 <i className="fas fa-phone text-accent"></i>
                 <span className="text-white/80">76 800 115</span>
               </li>
+
               <li className="flex items-center gap-3">
                 <i className="fas fa-envelope text-accent"></i>
                 <span className="text-white/80">hello@lamarbakerycafe.com</span>
@@ -139,13 +205,16 @@ const Footer = () => {
             <p className="text-white/60 text-sm">
               &copy; {currentYear} Lamar Bakery Cafe. All rights reserved.
             </p>
+
             <div className="flex gap-6 text-sm text-white/60">
               <a href="#" className="hover:text-accent transition-colors">
                 Privacy Policy
               </a>
+
               <a href="#" className="hover:text-accent transition-colors">
                 Terms of Service
               </a>
+
               <Link
                 to="/admin/login"
                 className="hover:text-accent transition-colors"
