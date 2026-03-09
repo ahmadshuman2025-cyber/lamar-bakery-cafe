@@ -193,25 +193,63 @@ const createMenuItem = async (req, res) => {
       isAvailable: isAvailable !== false,
     });
 
-    // -------- SEND EMAIL NOTIFICATION --------
     const subscribers = await Subscriber.find({}, "email");
-
     const emailList = subscribers.map((sub) => sub.email);
 
     if (emailList.length > 0) {
+      const menuUrl = "https://lamar-bakery-cafe.vercel.app/#menu";
+
       await sendEmail({
         to: emailList,
         subject: `New item at Lamar Bakery Cafe: ${menuItem.name}`,
         html: `
-          <h2>New Menu Item Added 🍰</h2>
-          <p><strong>${menuItem.name}</strong></p>
-          <p>${menuItem.description}</p>
-          <p>Price: $${menuItem.price}</p>
-          <p>Visit Lamar Bakery Cafe to try it!</p>
+          <div style="font-family: Arial, sans-serif; background-color: #f8f5f2; padding: 30px; margin: 0;">
+            <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 14px rgba(0,0,0,0.08);">
+              
+              <div style="background: #8b4513; padding: 28px; text-align: center; color: white;">
+                <h1 style="margin: 0; font-size: 30px;">Lamar Bakery Cafe</h1>
+                <p style="margin: 8px 0 0; font-size: 15px;">Freshly baked happiness since 2020</p>
+              </div>
+
+              <div style="padding: 35px 30px; color: #333;">
+                <h2 style="margin-top: 0; color: #8b4513;">New Menu Item Added 🍰</h2>
+
+                <p style="font-size: 16px; line-height: 1.7;">
+                  We’ve added something delicious to our menu.
+                </p>
+
+                <div style="background: #f9f3ec; border-radius: 10px; padding: 20px; margin: 20px 0;">
+                  <h3 style="margin: 0 0 10px; color: #8b4513;">${menuItem.name}</h3>
+                  <p style="margin: 0 0 12px; font-size: 15px; color: #555;">
+                    ${menuItem.description}
+                  </p>
+                  <p style="margin: 0; font-size: 17px; font-weight: bold; color: #d97706;">
+                    Price: $${menuItem.price}
+                  </p>
+                </div>
+
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${menuUrl}"
+                     style="background: #d97706; color: white; text-decoration: none; padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: bold; display: inline-block;">
+                    View Menu
+                  </a>
+                </div>
+
+                <p style="font-size: 15px; color: #555; line-height: 1.6;">
+                  Visit Lamar Bakery Cafe and enjoy our newest treat.
+                </p>
+              </div>
+
+              <div style="background: #f3ede7; padding: 20px; text-align: center; font-size: 13px; color: #777;">
+                <p style="margin: 0 0 8px;">Lamar Bakery Cafe • Beqaa, Lebanon</p>
+                <p style="margin: 0 0 8px;">76 800 115 • lamarbakerycafe@gmail.com</p>
+                <p style="margin: 0;">© 2026 Lamar Bakery Cafe. All rights reserved.</p>
+              </div>
+            </div>
+          </div>
         `,
       });
     }
-    // -----------------------------------------
 
     res.status(201).json({
       success: true,
