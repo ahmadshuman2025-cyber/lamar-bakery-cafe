@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import api from "../api/axios";
 
 const AdminLogin = () => {
@@ -163,9 +163,9 @@ const AdminLogin = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <a href="/" className="text-sm text-[#8B4513] hover:underline">
+            <Link to="/" className="text-sm text-[#8B4513] hover:underline">
               ← Back to Website
-            </a>
+            </Link>
           </div>
         </div>
 

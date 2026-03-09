@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -144,12 +146,12 @@ const Footer = () => {
               <a href="#" className="hover:text-accent transition-colors">
                 Terms of Service
               </a>
-              <a
-                href="/admin/login"
+              <Link
+                to="/admin/login"
                 className="hover:text-accent transition-colors"
               >
                 Admin
-              </a>
+              </Link>
             </div>
           </div>
         </div>
