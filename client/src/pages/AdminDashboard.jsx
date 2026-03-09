@@ -37,27 +37,26 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div>
-      {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800 font-serif">
+    <div className="max-w-7xl mx-auto">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 font-serif">
           Dashboard
         </h1>
-        <p className="text-gray-500 mt-1">Welcome to Lamar Bakery Cafe Admin</p>
+        <p className="text-sm sm:text-base text-gray-500 mt-1">
+          Welcome to Lamar Bakery Cafe Admin
+        </p>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {/* Total Menu Items */}
-        <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-[#8B4513]">
-          <div className="flex items-center justify-between">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="bg-white rounded-xl shadow-md p-5 sm:p-6 border-l-4 border-[#8B4513]">
+          <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm text-gray-500">Total Menu Items</p>
-              <p className="text-3xl font-bold text-gray-800 mt-1">
+              <p className="text-2xl sm:text-3xl font-bold text-gray-800 mt-1">
                 {stats.menuStats.total}
               </p>
             </div>
-            <div className="w-12 h-12 bg-[#F5F0E8] rounded-lg flex items-center justify-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#F5F0E8] rounded-lg flex items-center justify-center shrink-0">
               <svg
                 className="w-6 h-6 text-[#8B4513]"
                 fill="none"
@@ -75,16 +74,15 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Available Items */}
-        <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
-          <div className="flex items-center justify-between">
+        <div className="bg-white rounded-xl shadow-md p-5 sm:p-6 border-l-4 border-green-500">
+          <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm text-gray-500">Available Items</p>
-              <p className="text-3xl font-bold text-gray-800 mt-1">
+              <p className="text-2xl sm:text-3xl font-bold text-gray-800 mt-1">
                 {stats.menuStats.available}
               </p>
             </div>
-            <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 bg-green-50 rounded-lg flex items-center justify-center shrink-0">
               <svg
                 className="w-6 h-6 text-green-500"
                 fill="none"
@@ -102,16 +100,15 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Unavailable Items */}
-        <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-500">
-          <div className="flex items-center justify-between">
+        <div className="bg-white rounded-xl shadow-md p-5 sm:p-6 border-l-4 border-red-500">
+          <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm text-gray-500">Unavailable Items</p>
-              <p className="text-3xl font-bold text-gray-800 mt-1">
+              <p className="text-2xl sm:text-3xl font-bold text-gray-800 mt-1">
                 {stats.menuStats.unavailable}
               </p>
             </div>
-            <div className="w-12 h-12 bg-red-50 rounded-lg flex items-center justify-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 bg-red-50 rounded-lg flex items-center justify-center shrink-0">
               <svg
                 className="w-6 h-6 text-red-500"
                 fill="none"
@@ -129,16 +126,15 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Total Contacts */}
-        <div className="bg-white rounded-xl shadow-md p-6 border-l-4 border-[#D2691E]">
-          <div className="flex items-center justify-between">
+        <div className="bg-white rounded-xl shadow-md p-5 sm:p-6 border-l-4 border-[#D2691E]">
+          <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-sm text-gray-500">Contact Messages</p>
-              <p className="text-3xl font-bold text-gray-800 mt-1">
+              <p className="text-2xl sm:text-3xl font-bold text-gray-800 mt-1">
                 {stats.contactStats.total}
               </p>
             </div>
-            <div className="w-12 h-12 bg-[#F5F0E8] rounded-lg flex items-center justify-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 bg-[#F5F0E8] rounded-lg flex items-center justify-center shrink-0">
               <svg
                 className="w-6 h-6 text-[#D2691E]"
                 fill="none"
@@ -157,14 +153,13 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <Link
           to="/admin/menu"
-          className="bg-gradient-to-r from-[#8B4513] to-[#6B3410] text-white rounded-xl p-6 hover:shadow-lg transition-shadow"
+          className="bg-gradient-to-r from-[#8B4513] to-[#6B3410] text-white rounded-xl p-5 sm:p-6 hover:shadow-lg transition-shadow"
         >
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -190,10 +185,10 @@ const AdminDashboard = () => {
 
         <Link
           to="/admin/contacts"
-          className="bg-gradient-to-r from-[#D2691E] to-[#8B4513] text-white rounded-xl p-6 hover:shadow-lg transition-shadow"
+          className="bg-gradient-to-r from-[#D2691E] to-[#8B4513] text-white rounded-xl p-5 sm:p-6 hover:shadow-lg transition-shadow"
         >
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 bg-white/20 rounded-lg flex items-center justify-center shrink-0">
               <svg
                 className="w-6 h-6"
                 fill="none"
@@ -218,15 +213,14 @@ const AdminDashboard = () => {
         </Link>
       </div>
 
-      {/* Recent Contacts */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-800">
+      <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+        <div className="flex items-center justify-between gap-3 mb-6">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800">
             Recent Messages
           </h2>
           <Link
             to="/admin/contacts"
-            className="text-[#8B4513] hover:underline text-sm font-medium"
+            className="text-[#8B4513] hover:underline text-sm font-medium shrink-0"
           >
             View All →
           </Link>
@@ -239,18 +233,20 @@ const AdminDashboard = () => {
                 key={contact._id}
                 className="border-b border-gray-100 last:border-0 pb-4 last:pb-0"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
                   <div>
                     <h4 className="font-medium text-gray-800">
                       {contact.name}
                     </h4>
-                    <p className="text-sm text-gray-500">{contact.email}</p>
+                    <p className="text-sm text-gray-500 break-all">
+                      {contact.email}
+                    </p>
                   </div>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-gray-400 shrink-0">
                     {new Date(contact.createdAt).toLocaleDateString()}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+                <p className="text-sm text-gray-600 mt-2 line-clamp-2 break-words">
                   {contact.message}
                 </p>
               </div>
